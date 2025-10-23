@@ -5,13 +5,7 @@ import React from 'react'
 const index = () => {
   return (
     <View>
-      <Text>This is feed</Text>
-      <Button
-  title="Try!"
-  onPress={() => {
-    Sentry.captureException(new Error("First error"));
-  }}
-/>;
+     
     </View>
   )
 }

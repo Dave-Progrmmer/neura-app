@@ -35,7 +35,7 @@ const UserProfile = ({userId} : UserProfileProps) => {
         {isSelf && (
           <>
             <Link
-              href={`/(modal)/edit-profile?biostring=${
+              href={`/(auth)/(modal)/edit-profile?userId=${
                 profile?.bio ? encodeURIComponent(profile?.bio) : ''
               }&linkstring=${profile?.websiteUrl ? encodeURIComponent(profile?.websiteUrl) : ''}&userId=${
                 profile?._id
