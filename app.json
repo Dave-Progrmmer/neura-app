@@ -42,7 +42,15 @@
         }
       ],
       "expo-font",
-      "expo-secure-store"
+      "expo-secure-store",
+      [
+        "@sentry/react-native/expo",
+        {
+          "organization": "galaxies",
+          "project": "neura",
+          "url": "https://sentry.io/"
+        }
+      ],
     ],
     "experiments": {
       "typedRoutes": true,
