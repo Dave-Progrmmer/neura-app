@@ -1,16 +1,13 @@
 import { Colors } from "@/constants/Colors";
-import { api } from "@/convex/_generated/api";
 import { useOAuth } from "@clerk/clerk-expo";
 import { Ionicons } from '@expo/vector-icons';
-import { useQuery } from "convex/react";
+
 
 import { Text, View, StyleSheet, TouchableOpacity, ScrollView, Image } from "react-native";
 
 export default function Index() {
   const { startOAuthFlow } = useOAuth({ strategy: 'oauth_facebook' });
   const { startOAuthFlow: googleAuth } = useOAuth({ strategy: 'oauth_google' });
-  const data = useQuery(api.getAllUsers)
-  console.log(data);
   
   const handleFacebookLogin = async () => {
     try {
@@ -39,7 +36,7 @@ export default function Index() {
     <View style={styles.container}>
       <Image source={require('@/assets/images/login.png')} style={styles.loginImage} />
       <ScrollView contentContainerStyle={styles.container}>
-        <Text style={styles.title}>How would you like to use Threads?</Text>
+        <Text style={styles.title}>How would you like to use Neura?</Text>
 
         <View style={styles.buttonContainer}>
           <TouchableOpacity style={styles.loginButton} onPress={handleFacebookLogin}>
@@ -52,7 +49,7 @@ export default function Index() {
               <Ionicons name="chevron-forward" size={24} color={Colors.border} />
             </View>
             <Text style={styles.loginButtonSubtitle}>
-              Log in or create a THreads profile with your Instagram account. With a profile, you
+              Log in or create a Neura profile with your Instagram account. With a profile, you
               can post, interact and get personalised recommendations.
             </Text>
           </TouchableOpacity>
@@ -71,7 +68,7 @@ export default function Index() {
               <Ionicons name="chevron-forward" size={24} color={Colors.border} />
             </View>
             <Text style={styles.loginButtonSubtitle}>
-              You can browse Threads without a profile, but won't be able to post, interact or get
+              You can browse Neura without a profile, but won't be able to post, interact or get
               personalised recommendations.
             </Text>
           </TouchableOpacity>
