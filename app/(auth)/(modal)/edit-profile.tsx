@@ -1,10 +1,11 @@
-import { View, Text, StyleSheet, TouchableOpacity, TextInput } from 'react-native'
+import { View, Text, StyleSheet, TouchableOpacity, TextInput, Image } from 'react-native'
 import React, { useState } from 'react'
 import { Stack, useLocalSearchParams, useRouter } from 'expo-router';
 import { Id } from '@/convex/_generated/dataModel';
 import { useMutation } from 'convex/react';
 import { api } from '@/convex/_generated/api';
 import * as Sentry from '@sentry/react-native';
+import * as ImagePicker from 'expo-image-picker';
 import { Colors } from '@/constants/Colors';
 const editProfile = () => {
     const { biostring, linkstring, userId, imageUrl } = useLocalSearchParams<{
@@ -18,11 +19,20 @@ const editProfile = () => {
       const updateUser = useMutation(api.users.updateUser);
       const generateUploadUrl = useMutation(api.users.generateUploadUrl);
       const updateImage = useMutation(api.users.updateImage);
-    
+      const [selectedImage, setSelectedImage] = useState<ImagePicker.ImagePickerAsset | null>(null);
   
     
       const router = useRouter();
-
+      const selectImage = async () => {
+        const result = await ImagePicker.launchImageLibraryAsync({
+          mediaTypes: ImagePicker.MediaTypeOptions.Images,
+          allowsEditing: true,
+          aspect: [4, 3],
+        });
+        if (!result.canceled) {
+          setSelectedImage(result.assets[0]);
+        }
+      };
       const onDone = async () => {
         updateUser({ _id: userId as Id<'users'>, bio, websiteUrl: link });
         Sentry.captureEvent({
@@ -48,6 +58,13 @@ const editProfile = () => {
           ),
         }}
       />
+      <TouchableOpacity onPress={selectImage}>
+        {selectedImage ? (
+          <Image source={{ uri: selectedImage.uri }} style={styles.image} />
+        ) : (
+          <Image source={{ uri: imageUrl }} style={styles.image} />
+        )}
+      </TouchableOpacity>
        <View style={styles.section}>
         <Text style={styles.label}>Bio</Text>
         <TextInput

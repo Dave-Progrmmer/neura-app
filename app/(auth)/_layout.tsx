@@ -10,6 +10,7 @@ const Layout = () => {
       screenOptions={{
         contentStyle: { backgroundColor: "white" },
         headerShadowVisible: false,
+        headerTitleAlign: "center",
       }}
     >
       <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
@@ -19,6 +20,7 @@ const Layout = () => {
           headerShown: false,
           presentation: "modal",
           title: "New Post",
+          headerTitleAlign: "center",
           headerRight: () => <Text>Cancel</Text>,
         }}
       />
@@ -27,6 +29,7 @@ const Layout = () => {
         options={{
           presentation: "modal",
           title: "Edit profile",
+          headerTitleAlign: "center",
           headerLeft: () => (
             <TouchableOpacity onPress={() => router.dismiss()}>
               <Text>Cancel</Text>
