@@ -27,9 +27,14 @@ export const getUserByClerkId = query({
 
 export const getUserById = query({
   args: {
-    userId: v.id('users'),
+    userId: v.optional(v.id('users')), // Make it optional
   },
   handler: async (ctx, args) => {
+    // Return null if no userId provided
+    if (!args.userId) {
+      return null;
+    }
+    
     const user = await ctx.db.get(args.userId);
     if (!user?.imageUrl || user.imageUrl.startsWith('http')) {
       return user;
@@ -43,6 +48,7 @@ export const getUserById = query({
     };
   },
 });
+
 
 export const createUser = internalMutation({
   args: {

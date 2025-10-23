@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View } from 'react-native'
+import { Image, StyleSheet, Text, View } from 'react-native'
 import React from 'react'
 import { useQuery } from 'convex/react';
 import { api } from '@/convex/_generated/api';
@@ -15,8 +15,10 @@ const UserProfile = ({userId} : UserProfileProps) => {
     <View style={styles.container}>
       <View style={styles.profileContainer}>
         <View style={styles.profileTextContainer}>
-          <Text>{profile?.first_name}</Text>
+          <Text style={styles.name}>{profile?.first_name} {profile?.last_name}</Text>
+          <Text style={styles.email}>@{profile?.username}</Text>
         </View>
+        <Image source={{uri: profile?.imageUrl}} style={styles.image} />
       </View>
     </View>
   )
