@@ -7,6 +7,7 @@ import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { Ionicons, MaterialCommunityIcons } from "@expo/vector-icons";
 import { useRouter } from "expo-router";
 import { useAuth } from "@clerk/clerk-expo";
+import UserProfile from "./UserProfile";
 
 type ProfileProps = {
   userId?: Id<"users">;
@@ -38,22 +39,28 @@ const Profile = ({ userId, showBackButton = false }: ProfileProps) => {
           />
         )}
         ListHeaderComponent={
-          <View style={styles.header}>
-            {showBackButton ? (
-              <TouchableOpacity style={styles.backButton} onPress={() => router.back()}>
-                <Ionicons name="chevron-back" size={24} color="#000" />
-                <Text style={styles.backText}>Back</Text>
-              </TouchableOpacity>
-            ) : (
-              <MaterialCommunityIcons name="web" size={24} color="black" />
-            )}
-            <View style={styles.headerIcons}>
-              <Ionicons name="logo-instagram" size={24} color="black" />
-              <TouchableOpacity onPress={() => signOut()}>
-                <Ionicons name="log-out-outline" size={24} color="black" />
-              </TouchableOpacity>
+          <>
+          <View>
+            <View style={styles.header}>
+              {showBackButton ? (
+                <TouchableOpacity style={styles.backButton} onPress={() => router.back()}>
+                  <Ionicons name="chevron-back" size={24} color="#000" />
+                  <Text style={styles.backText}>Back</Text>
+                </TouchableOpacity>
+              ) : (
+                <MaterialCommunityIcons name="web" size={24} color="black" />
+              )}
+              <View style={styles.headerIcons}>
+                <Ionicons name="logo-instagram" size={24} color="black" />
+                <TouchableOpacity onPress={() => signOut()}>
+                  <Ionicons name="log-out-outline" size={24} color="black" />
+                </TouchableOpacity>
+              </View>
             </View>
           </View>
+          {userId ? <UserProfile userId = {userId} /> : <UserProfile userId = {userProfile?._id} /> }
+          </>
+          
         }
       />
     </View>

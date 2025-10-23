@@ -11,6 +11,7 @@ import { ClerkProvider, ClerkLoaded, useAuth, useUser } from '@clerk/clerk-expo'
 // import { tokenCache } from '@/utils/cache'; // Disabled: missing module, see lint error
 import { LogBox } from 'react-native';
 import { useRouter } from 'expo-router';
+import { tokenCache } from '@/utils/cache'; 
 import { ConvexReactClient } from 'convex/react';
 import { ConvexProviderWithClerk } from 'convex/react-clerk';
 import * as Sentry from '@sentry/react-native';
@@ -27,7 +28,6 @@ if (!publishableKey) {
     'Missing Publishable Key. Please set EXPO_PUBLIC_CLERK_PUBLISHABLE_KEY in your .env'
   );
 }
-LogBox.ignoreLogs(['Clerk: Clerk has been loaded with development keys']);
 
 const convex = new ConvexReactClient(convexUrl, {
   unsavedChangesWarning: false,
@@ -114,7 +114,7 @@ const RootLayoutNav = () => {
   }, [ref]);
 
   return (
-    <ClerkProvider publishableKey={publishableKey/* ! removed for safety */}>
+    <ClerkProvider publishableKey={publishableKey} tokenCache={tokenCache}>
       <ClerkLoaded>
         <ConvexProviderWithClerk client={convex} useAuth={useAuth}>
           <InitialLayout />
