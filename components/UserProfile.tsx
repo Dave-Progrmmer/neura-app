@@ -1,9 +1,11 @@
-import { Image, StyleSheet, Text, View } from 'react-native'
+import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import React from 'react'
 import { useQuery } from 'convex/react';
 import { api } from '@/convex/_generated/api';
 import { Id } from '@/convex/_generated/dataModel';
 import { Colors } from '@/constants/Colors';
+import { useUserProfile } from '@/hooks/useUserProgfile';
+import { Link } from 'expo-router';
 
 type UserProfileProps = {
   userId?: string;
@@ -11,6 +13,8 @@ type UserProfileProps = {
 
 const UserProfile = ({userId} : UserProfileProps) => {
   const profile = useQuery(api.users.getUserById, {userId: userId as Id<"users">})
+  const { userProfile } = useUserProfile();
+  const isSelf = userProfile?._id === userId;
   return (
     <View style={styles.container}>
       <View style={styles.profileContainer}>
@@ -18,7 +22,45 @@ const UserProfile = ({userId} : UserProfileProps) => {
           <Text style={styles.name}>{profile?.first_name} {profile?.last_name}</Text>
           <Text style={styles.email}>@{profile?.username}</Text>
         </View>
-        <Image source={{uri: profile?.imageUrl}} style={styles.image} />
+        {profile?.imageUrl && (
+          <Image source={{uri: profile.imageUrl}} style={styles.image} />
+        )}
+      </View>
+      <Text style={styles.bio}>{profile?.bio ? profile?.bio : 'No bio yet'}</Text>
+      <Text>
+        {profile?.followersCount} followers · {profile?.websiteUrl}
+      </Text>
+
+      <View style={styles.buttonRow}>
+        {isSelf && (
+          <>
+            <Link
+              href={`/(modal)/edit-profile?biostring=${
+                profile?.bio ? encodeURIComponent(profile?.bio) : ''
+              }&linkstring=${profile?.websiteUrl ? encodeURIComponent(profile?.websiteUrl) : ''}&userId=${
+                profile?._id
+              }&imageUrl=${profile?.imageUrl ? encodeURIComponent(profile?.imageUrl) : ''}`}
+              asChild>
+              <TouchableOpacity style={styles.button}>
+                <Text style={styles.buttonText}>Edit profile</Text>
+              </TouchableOpacity>
+            </Link>
+            <TouchableOpacity style={styles.button}>
+              <Text style={styles.buttonText}>Share profile</Text>
+            </TouchableOpacity>
+          </>
+        )}
+
+        {!isSelf && (
+          <>
+            <TouchableOpacity style={styles.fullButton}>
+              <Text style={styles.fullButtonText}>Follow</Text>
+            </TouchableOpacity>
+            <TouchableOpacity style={styles.button}>
+              <Text style={styles.buttonText}>Mention</Text>
+            </TouchableOpacity>
+          </>
+        )}
       </View>
     </View>
   )

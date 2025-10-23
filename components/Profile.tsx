@@ -8,6 +8,7 @@ import { Ionicons, MaterialCommunityIcons } from "@expo/vector-icons";
 import { useRouter } from "expo-router";
 import { useAuth } from "@clerk/clerk-expo";
 import UserProfile from "./UserProfile";
+import Tabs from "./Tabs";
 
 type ProfileProps = {
   userId?: Id<"users">;
@@ -59,6 +60,7 @@ const Profile = ({ userId, showBackButton = false }: ProfileProps) => {
             </View>
           </View>
           {userId ? <UserProfile userId = {userId} /> : <UserProfile userId = {userProfile?._id} /> }
+          <Tabs onTabChange={()=>{}} />
           </>
           
         }
