@@ -6,7 +6,7 @@ const Layout = () => {
   const router = useRouter();
 
   return (
-    <Stack>
+    <Stack screenOptions={{ contentStyle: { backgroundColor: 'white' }, headerShadowVisible: false }}>
         <Stack.Screen name='(tabs)' options={{headerShown: false}}/>
     </Stack>
   );
