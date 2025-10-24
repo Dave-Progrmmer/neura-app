@@ -1,23 +1,15 @@
 import React from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import { View, StyleSheet } from 'react-native';
 
+// This screen should never be visible since we intercept the tab press
+// and navigate to the modal instead. This is just a placeholder.
 export default function CreateScreen() {
-  return (
-    <View style={styles.container}>
-      <Text style={styles.title}>Create</Text>
-      {/* Add creation functionality here */}
-    </View>
-  );
+  return <View style={styles.container} />;
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  title: {
-    fontSize: 24,
-    fontWeight: 'bold',
+    backgroundColor: 'white',
   },
 });

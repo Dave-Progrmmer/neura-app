@@ -44,7 +44,7 @@ const ThreadComposer: React.FC<ThreadComposerProps> = ({ isPreview, isReply, thr
 
   const handleCancel = () => {
     setThreadContent('');
-    Alert.alert('Discard thread?', '', [
+    Alert.alert('Discard post?', '', [
       {
         text: 'Discard',
         onPress: () => router.dismiss(),
@@ -69,7 +69,7 @@ const ThreadComposer: React.FC<ThreadComposerProps> = ({ isPreview, isReply, thr
   const selectImage = async (source: 'camera' | 'library') => {
     const options: ImagePicker.ImagePickerOptions = {
       allowsEditing: true,
-      aspect: [4, 3],
+      aspect: [7, 7],
       mediaTypes: ImagePicker.MediaTypeOptions.Images,
     };
 
@@ -142,7 +142,7 @@ const ThreadComposer: React.FC<ThreadComposerProps> = ({ isPreview, isReply, thr
           </Text>
           <TextInput
             style={styles.input}
-            placeholder={isReply ? 'Reply to thread' : "What's new?"}
+            placeholder={isReply ? 'Reply to post' : "What's new?"}
             value={threadContent}
             onChangeText={setThreadContent}
             multiline
@@ -169,18 +169,6 @@ const ThreadComposer: React.FC<ThreadComposerProps> = ({ isPreview, isReply, thr
             </TouchableOpacity>
             <TouchableOpacity style={styles.iconButton} onPress={() => selectImage('camera')}>
               <Ionicons name="camera-outline" size={24} color={Colors.border} />
-            </TouchableOpacity>
-            <TouchableOpacity style={styles.iconButton}>
-              <MaterialIcons name="gif" size={24} color={Colors.border} />
-            </TouchableOpacity>
-            <TouchableOpacity style={styles.iconButton}>
-              <Ionicons name="mic-outline" size={24} color={Colors.border} />
-            </TouchableOpacity>
-            <TouchableOpacity style={styles.iconButton}>
-              <FontAwesome6 name="hashtag" size={24} color={Colors.border} />
-            </TouchableOpacity>
-            <TouchableOpacity style={styles.iconButton}>
-              <Ionicons name="stats-chart-outline" size={24} color={Colors.border} />
             </TouchableOpacity>
           </View>
         </View>

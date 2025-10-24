@@ -125,7 +125,7 @@ const _layout = () => {
         name="profile"
         options={{
           title: 'Profile',
-          headerShown: true,
+          headerShown: false,
           headerRight: () => (
             <TouchableOpacity onPress={() => signOut()}>
               <Text style={styles.logoutText}>Log out</Text>
