@@ -5,7 +5,7 @@ import { useUserProfile } from "@/hooks/useUserProgfile";
 import { Colors } from "@/constants/Colors";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { Ionicons, MaterialCommunityIcons } from "@expo/vector-icons";
-import { useRouter } from "expo-router";
+import { Link, useRouter } from "expo-router";
 import { useAuth } from "@clerk/clerk-expo";
 import UserProfile from "./UserProfile";
 import Tabs from "./Tabs";
@@ -33,7 +33,13 @@ const Profile = ({ userId, showBackButton = false }: ProfileProps) => {
     <View style={[styles.container, { paddingTop: top }]}>
       <FlatList
         data={results}
-        renderItem={({ item }) =>  <Thread thread={item as Doc<'messages'> & { creator: Doc<'users'> }} />}
+        renderItem={({ item }) => (
+          <Link href={`/feed/${item._id}`} asChild>
+            <TouchableOpacity>
+              <Thread thread={item as Doc<'messages'> & { creator: Doc<'users'> }} />
+            </TouchableOpacity>
+          </Link>
+        )}
         ListEmptyComponent={
           <Text style={styles.tabContentText}>
             You haven't posted anything yet.

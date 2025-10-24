@@ -40,6 +40,26 @@ const Layout = () => {
           ),
         }}
       />
+      <Stack.Screen
+        name="(modal)/image/[url]"
+        options={{
+          presentation: 'fullScreenModal',
+          title: '',
+          headerTitleAlign: 'center',
+          headerStyle:{backgroundColor: 'black'},
+          headerLeft: () => (
+            <TouchableOpacity onPress={() => router.dismiss()}>
+              <Ionicons name='close' size={24} color="white"/>
+            </TouchableOpacity>
+          ),
+          // Fix: headerRight should return a ReactNode, not void
+          headerRight: () => (
+            <TouchableOpacity>
+              <Ionicons name='ellipsis-horizontal-circle' size={24} color='white'/>
+            </TouchableOpacity>
+          )
+        }}
+      />
     </Stack>
   )
 }
