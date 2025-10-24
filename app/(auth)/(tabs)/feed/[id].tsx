@@ -35,7 +35,7 @@ const Page = () => {
         <Comments threadId={id as Id<'messages'>} />
       </ScrollView>
       <View style={styles.border} />
-      <Link href={`/(modal)/reply/${id}`} asChild>
+    <Link href={`/(auth)/(modal)/reply/${id}`} asChild>
         <TouchableOpacity style={styles.replyButton}>
           <Image
             source={{ uri: userProfile?.imageUrl as string }}

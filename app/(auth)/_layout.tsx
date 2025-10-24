@@ -60,6 +60,19 @@ const Layout = () => {
           )
         }}
       />
+       <Stack.Screen
+        name="(modal)/reply/[id]"
+        options={{
+          presentation: 'modal',
+          title: 'Reply',
+          headerTitleAlign: 'center',
+          headerLeft: () => (
+            <TouchableOpacity onPress={() => router.dismiss()}>
+              <Text>Cancel</Text>
+            </TouchableOpacity>
+          ),
+        }}
+      />   
     </Stack>
   )
 }
