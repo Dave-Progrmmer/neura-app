@@ -3,20 +3,19 @@ import { Tabs, useRouter } from 'expo-router'
 import { Ionicons } from '@expo/vector-icons'
 import { Colors } from '@/constants/Colors'
 import { View, StyleSheet, TouchableOpacity, Text } from 'react-native'
-import { useAuth } from '@clerk/clerk-expo';
-import * as Haptics from 'expo-haptics';
-
+import { useAuth } from '@clerk/clerk-expo'
+import * as Haptics from 'expo-haptics'
 
 const _layout = () => {
-  const { signOut } = useAuth();
-  const router = useRouter();
-  // The cross icon is less thick and has more padding around it
+  const { signOut } = useAuth()
+  const router = useRouter()
+
   const CreateTabIcon = ({ color, size }: { color: string; size: number }) => (
     <View
       style={[
         styles.createIconContainer,
         {
-          padding: 8, // more padding for extra space around the cross
+          padding: 8,
           width: size + 16,
           height: size + 12,
           alignItems: 'center',
@@ -25,35 +24,33 @@ const _layout = () => {
       ]}
     >
       <View style={[styles.crossContainer, { width: size, height: size }]}>
-        {/* Vertical line */}
         <View
           style={[
             styles.crossLine,
             {
               backgroundColor: color,
-              width: size * 0.12, // thinner
+              width: size * 0.12,
               height: size * 0.7,
               top: size * 0.15,
-              left: size * 0.44, // reposition for thin line
+              left: size * 0.44,
             },
           ]}
         />
-        {/* Horizontal line */}
         <View
           style={[
             styles.crossLine,
             {
               backgroundColor: color,
               width: size * 0.7,
-              height: size * 0.12, // thinner
-              top: size * 0.44, // reposition for thin line
+              height: size * 0.12,
+              top: size * 0.44,
               left: size * 0.15,
             },
           ]}
         />
       </View>
     </View>
-  );
+  )
 
   return (
     <Tabs
@@ -70,7 +67,7 @@ const _layout = () => {
           title: 'Home',
           tabBarIcon: ({ color, size, focused }) => (
             <Ionicons
-              name={focused ? "home" : "home-outline"}
+              name={focused ? 'home' : 'home-outline'}
               size={size}
               color={color}
             />
@@ -84,7 +81,7 @@ const _layout = () => {
           title: 'Search',
           tabBarIcon: ({ color, size, focused }) => (
             <Ionicons
-              name={focused ? "search" : "search-outline"}
+              name={focused ? 'search' : 'search-outline'}
               size={size}
               color={color}
             />
@@ -92,7 +89,7 @@ const _layout = () => {
         }}
       />
 
-<Tabs.Screen
+      <Tabs.Screen
         name="create"
         options={{
           title: 'Create',
@@ -100,19 +97,23 @@ const _layout = () => {
         }}
         listeners={{
           tabPress: (e) => {
-            e.preventDefault();
-            Haptics.selectionAsync();
-            router.push('/(auth)/(modal)/create');
+            // Prevent default navigation to the create tab
+            e.preventDefault()
+            // Provide haptic feedback
+            Haptics.selectionAsync()
+            // Navigate to the modal instead
+            router.push('/(auth)/(modal)/create')
           },
         }}
       />
+
       <Tabs.Screen
         name="favourites"
         options={{
           title: 'Favourites',
           tabBarIcon: ({ color, size, focused }) => (
             <Ionicons
-              name={focused ? "heart" : "heart-outline"}
+              name={focused ? 'heart' : 'heart-outline'}
               size={size}
               color={color}
             />
@@ -124,6 +125,7 @@ const _layout = () => {
         name="profile"
         options={{
           title: 'Profile',
+          headerShown: true,
           headerRight: () => (
             <TouchableOpacity onPress={() => signOut()}>
               <Text style={styles.logoutText}>Log out</Text>
@@ -131,7 +133,7 @@ const _layout = () => {
           ),
           tabBarIcon: ({ color, size, focused }) => (
             <Ionicons
-              name={focused ? "person" : "person-outline"}
+              name={focused ? 'person' : 'person-outline'}
               size={size}
               color={color}
             />
@@ -139,8 +141,8 @@ const _layout = () => {
         }}
       />
     </Tabs>
-  );
-};
+  )
+}
 
 export default _layout
 
@@ -152,7 +154,6 @@ const styles = StyleSheet.create({
   createIconContainer: {
     backgroundColor: Colors.itemBackground,
     borderRadius: 8,
-    // padding is now controlled in the component for better flexibility
   },
   crossContainer: {
     position: 'relative',
@@ -163,4 +164,4 @@ const styles = StyleSheet.create({
     position: 'absolute',
     borderRadius: 2,
   },
-});
+})
