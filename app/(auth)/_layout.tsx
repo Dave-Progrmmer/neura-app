@@ -19,9 +19,7 @@ const Layout = () => {
         options={{
           headerShown: false,
           presentation: "modal",
-          title: "New Post",
-          headerTitleAlign: "center",
-          headerRight: () => <Text>Cancel</Text>,
+          animation: "slide_from_bottom",
         }}
       />
       <Stack.Screen

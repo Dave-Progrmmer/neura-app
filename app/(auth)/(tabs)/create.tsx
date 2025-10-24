@@ -1,12 +1,5 @@
-import { View, Text } from 'react-native'
-import React from 'react'
-
-const create = () => {
-  return (
-    <View>
-      <Text>create</Text>
-    </View>
-  )
-}
-
-export default create
+import { StyleSheet, View, Text, TouchableOpacity } from 'react-native'
+import React, { useState } from 'react'
+import { useRouter } from 'expo-router'
+import { Colors } from '@/constants/Colors'
+import { Image, TextInput, ScrollView, Alert, InputAccessoryView } from 'react-native'
