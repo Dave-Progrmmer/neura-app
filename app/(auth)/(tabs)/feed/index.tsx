@@ -9,6 +9,7 @@ import { useBottomTabBarHeight } from '@react-navigation/bottom-tabs';
 import { useIsFocused } from '@react-navigation/native';
 import { Colors } from '@/constants/Colors';
 import ThreadComposer from '@/components/ThreadComposer';
+import Thread from '@/components/Thread';
 
 const index = () => {
   const { results, status, loadMore } = usePaginatedQuery(
@@ -39,7 +40,7 @@ const index = () => {
     <FlatList
     data={results}
     showsVerticalScrollIndicator={false}
-    renderItem={({item})=><Text>{item.content}</Text>}
+    renderItem={({item})=> <Thread thread={item}/>}
     keyExtractor={(item)=>item._id}
     onEndReached={onLoadmore}
     onEndReachedThreshold={0.5}
