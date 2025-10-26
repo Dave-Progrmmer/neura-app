@@ -10,61 +10,61 @@ import { useUserProfile } from '@/hooks/useUserProgfile';
 import { Id } from '@/convex/_generated/dataModel';
 
 Notifications.setNotificationHandler({
-  handleNotification: async () => ({
-    shouldShowAlert: true,
-    shouldPlaySound: true,
-    shouldSetBadge: false,
-  }),
-});
+    handleNotification: async () => ({
+      shouldShowAlert: true,
+      shouldPlaySound: true,
+      shouldSetBadge: false,
+      shouldShowBanner: true,
+      shouldShowList: true,
+    }),
+  });
 
 export const usePush = () => {
-  const notificationListener = useRef<Notifications.Subscription>();
-  const responseListener = useRef<Notifications.Subscription>();
+  const notificationListener = useRef<Notifications.Subscription | null>(null);
+  const responseListener = useRef<Notifications.Subscription | null>(null);
   const router = useRouter();
   const updateUser = useMutation(api.users.updateUser);
   const { userProfile } = useUserProfile();
 
   useEffect(() => {
     if (!Device.isDevice) return;
+
     registerForPushNotificationsAsync()
       .then((token) => {
         if (token && userProfile?._id) {
-          updateUser({ pushToken: token, _id: userProfile?._id as Id<'users'> });
+          updateUser({ pushToken: token, _id: userProfile._id as Id<'users'> });
         }
       })
-      .catch((error: any) => console.log('error', error));
+      .catch((error) => console.log('error', error));
 
-    // Recieved notification
+    // Received notification
     notificationListener.current = Notifications.addNotificationReceivedListener((notification) => {
-      console.log('recieved notification', notification);
+      console.log('received notification', notification);
     });
 
     // Tapped on notification
     responseListener.current = Notifications.addNotificationResponseReceivedListener((response) => {
       const threadId = response.notification.request.content.data.threadId;
-      console.log(
-        '🚀 ~ responseListener.current=Notifications.addNotificationResponseReceivedListener ~ threadId:',
-        threadId
-      );
-      router.push(`/feed/${threadId}`);
+      console.log('Tapped notification for threadId:', threadId);
+      if (threadId) {
+        router.push(`/feed/${threadId}`);
+      }
     });
 
     return () => {
-      notificationListener.current &&
-        Notifications.removeNotificationSubscription(notificationListener.current);
-      responseListener.current &&
-        Notifications.removeNotificationSubscription(responseListener.current);
+      notificationListener.current?.remove();
+      responseListener.current?.remove();
     };
   }, [userProfile?._id]);
 
   function handleRegistrationError(errorMessage: string) {
-    alert(errorMessage);
+    console.error(errorMessage);
     throw new Error(errorMessage);
   }
 
   async function registerForPushNotificationsAsync() {
     if (Platform.OS === 'android') {
-      Notifications.setNotificationChannelAsync('default', {
+      await Notifications.setNotificationChannelAsync('default', {
         name: 'default',
         importance: Notifications.AndroidImportance.MAX,
         vibrationPattern: [0, 250, 250, 250],
@@ -75,26 +75,32 @@ export const usePush = () => {
     if (Device.isDevice) {
       const { status: existingStatus } = await Notifications.getPermissionsAsync();
       let finalStatus = existingStatus;
+
       if (existingStatus !== 'granted') {
         const { status } = await Notifications.requestPermissionsAsync();
         finalStatus = status;
       }
+
       if (finalStatus !== 'granted') {
         handleRegistrationError('Permission not granted to get push token for push notification!');
         return;
       }
+
       const projectId =
         Constants?.expoConfig?.extra?.eas?.projectId ?? Constants?.easConfig?.projectId;
+
       if (!projectId) {
         handleRegistrationError('Project ID not found');
+        return;
       }
+
       try {
         const pushTokenString = (
           await Notifications.getExpoPushTokenAsync({
             projectId,
           })
         ).data;
-        console.log(pushTokenString);
+        console.log('Push token:', pushTokenString);
         return pushTokenString;
       } catch (e: unknown) {
         handleRegistrationError(`${e}`);

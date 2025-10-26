@@ -50,11 +50,17 @@
           "project": "neura",
           "url": "https://sentry.io/"
         }
-      ],
+      ]
     ],
     "experiments": {
       "typedRoutes": true,
       "reactCompiler": true
+    },
+    "extra": {
+      "router": {},
+      "eas": {
+        "projectId": "05baa76a-a81b-4bf1-b30b-2076bda39f4e"
+      }
     }
   }
 }

@@ -1,10 +1,10 @@
 import { Ionicons } from '@expo/vector-icons'
 import { Stack, useRouter } from 'expo-router'
 import { TouchableOpacity, Text } from 'react-native'
-
+import { usePush } from '@/hooks/usePushNotification';
 const Layout = () => {
   const router = useRouter()
-
+   usePush();
   return (
     <Stack
       screenOptions={{
